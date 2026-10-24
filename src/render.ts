@@ -37,15 +37,24 @@ export async function preload(p: Project): Promise<void> {
           new Promise<void>((resolve, reject) => {
             const src = l.sprite?.image ?? l.src,
               r = loadImage(src);
-            const fail = () =>
+            const cleanup = () => {
+              clearTimeout(timer);
+              r.image.removeEventListener("load", success);
+              r.image.removeEventListener("error", fail);
+            };
+            const success = () => { cleanup(); resolve(); };
+            const fail = () => {
+              cleanup();
               reject(
                 new Error(
                   `No se puede cargar «${l.name}». Usa una imagen local o un servidor que permita CORS.`,
                 ),
               );
+            };
+            const timer = setTimeout(fail, 15000);
             if (r.error) return fail();
-            if (r.image.complete && r.image.naturalWidth) return resolve();
-            r.image.addEventListener("load", () => resolve(), { once: true });
+            if (r.image.complete && r.image.naturalWidth) return success();
+            r.image.addEventListener("load", success, { once: true });
             r.image.addEventListener("error", fail, { once: true });
           }),
       ),
