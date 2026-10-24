@@ -1,0 +1,63 @@
+{
+  "animationEnabled": true,
+  "activeSectionID": "walk",
+  "cameraZoom": 0.5,
+  "category": "characters",
+  "frameRate": 8,
+  "frames": [
+    {
+      "enabled": true,
+      "height": 256,
+      "width": 256,
+      "x": 8,
+      "y": 64
+    },
+    {
+      "enabled": true,
+      "height": 256,
+      "width": 256,
+      "x": 280,
+      "y": 64
+    },
+    {
+      "enabled": true,
+      "height": 256,
+      "width": 256,
+      "x": 551,
+      "y": 64
+    },
+    {
+      "enabled": true,
+      "height": 256,
+      "width": 256,
+      "x": 823,
+      "y": 64
+    }
+  ],
+  "id": "james",
+  "idleFrame": 3,
+  "image": "/demo/james.png",
+  "logicalSize": 128,
+  "name": "James",
+  "origin": {
+    "x": 0.5,
+    "y": 0.975
+  },
+  "sections": [
+    {
+      "frameOrder": [0, 1, 2, 3],
+      "id": "walk",
+      "name": "Caminar",
+      "notes": "Animación provisional de movimiento horizontal y diagonal.",
+      "color": "#4F46E5"
+    }
+  ],
+  "grid": {
+    "cellWidth": 256,
+    "cellHeight": 256,
+    "offsetX": 8,
+    "offsetY": 64,
+    "spacingX": 16,
+    "spacingY": 0
+  }
+}
