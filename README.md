@@ -1,6 +1,13 @@
 # Yunima · YouTube Animations
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="public/brand/yunima-logo.svg">
+  <img src="public/brand/yunima-logo-light.svg" alt="Yunima: a rounded Y incorporating a play symbol" width="320">
+</picture>
+
 A browser animation studio for YouTube creators. Spanish UI. Built with React, TypeScript and Canvas; deployed as static files on Cloudflare Pages. Editing, persistence and export run on the device.
+
+Vector masters, transparent PNG and application icons are in [`public/brand`](public/brand). See the [identity guide](docs/BRAND.md).
 
 ## Use
 

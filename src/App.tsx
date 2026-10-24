@@ -923,12 +923,13 @@ export default function App() {
           onClick={(e) => e.preventDefault()}
           aria-label="Yunima"
         >
-          <svg viewBox="0 0 32 32">
-            <path d="M6 6 16 18 26 6M16 18v9" />
-          </svg>
-          <span>
-            yunima<span className="brand-dot">.</span>
-          </span>
+          <img
+            className="brand-logo"
+            src="/brand/yunima-logo.svg"
+            alt=""
+            width="146"
+            height="37"
+          />
           <span className="beta">BETA</span>
         </a>
         <div className="project-title">
