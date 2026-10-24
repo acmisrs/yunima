@@ -12,7 +12,13 @@ vi.mock("../src/storage", async () => {
     save: vi.fn(async () => {}),
   };
 });
-Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });
+Object.assign(globalThis, {
+  IS_REACT_ACT_ENVIRONMENT: true,
+  ResizeObserver: class {
+    observe() {}
+    disconnect() {}
+  },
+});
 let root: Root, container: HTMLDivElement;
 const api = () =>
   (window as any).yunimaAPI as {

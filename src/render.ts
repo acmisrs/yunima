@@ -42,7 +42,10 @@ export async function preload(p: Project): Promise<void> {
               r.image.removeEventListener("load", success);
               r.image.removeEventListener("error", fail);
             };
-            const success = () => { cleanup(); resolve(); };
+            const success = () => {
+              cleanup();
+              resolve();
+            };
             const fail = () => {
               cleanup();
               reject(

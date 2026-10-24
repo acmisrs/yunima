@@ -1,5 +1,6 @@
 import {
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
   type ReactNode,
@@ -82,11 +83,7 @@ import {
 } from "./geometry";
 import { loadImage, onImages, render } from "./render";
 import { restore, save } from "./storage";
-import {
-  exportPNG,
-  exportProject,
-  exportVideo,
-} from "./export";
+import { exportPNG, exportProject, exportVideo } from "./export";
 import {
   hostStorage,
   importIsdkai,
@@ -219,8 +216,10 @@ export default function App() {
     redoStack = useRef<Project[]>([]),
     [, setHistoryVersion] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null),
+    stageSpace = useRef<HTMLDivElement>(null),
     drag = useRef<Drag | null>(null),
     exportAbort = useRef<AbortController | null>(null);
+  const [stageFit, setStageFit] = useState(640);
   const fileRef = useRef<HTMLInputElement>(null),
     imageRef = useRef<HTMLInputElement>(null),
     spriteRef = useRef<HTMLInputElement>(null),
@@ -406,6 +405,28 @@ export default function App() {
     }, 450);
     return () => clearTimeout(t);
   }, [project, ready]);
+  useLayoutEffect(() => {
+    const element = stageSpace.current;
+    if (!element) return;
+    const fit = () => {
+      const style = getComputedStyle(element);
+      const width =
+        element.clientWidth -
+        (parseFloat(style.paddingLeft) || 0) -
+        (parseFloat(style.paddingRight) || 0);
+      const height =
+        element.clientHeight -
+        (parseFloat(style.paddingTop) || 0) -
+        (parseFloat(style.paddingBottom) || 0);
+      setStageFit(
+        Math.max(1, Math.min(width, (height * project.width) / project.height)),
+      );
+    };
+    const observer = new ResizeObserver(fit);
+    observer.observe(element);
+    fit();
+    return () => observer.disconnect();
+  }, [project.width, project.height]);
   useEffect(() => {
     const draw = () => {
       const canvas = canvasRef.current;
@@ -1174,13 +1195,14 @@ export default function App() {
             </div>
           </div>
           <div className="canvas-area">
-            <div className="stage-scroll">
+            <div className="stage-scroll" ref={stageSpace}>
               <div
                 className={`stage ${grid ? "with-grid" : ""} ${project.transparent ? "transparent" : ""}`}
                 style={{
-                  width: `${zoom}%`,
+                  width: (stageFit * zoom) / 100,
                   aspectRatio: `${project.width}/${project.height}`,
-                  maxWidth: zoom <= 100 ? "100%" : "none",
+                  maxWidth: "none",
+                  maxHeight: "none",
                 }}
               >
                 <canvas
